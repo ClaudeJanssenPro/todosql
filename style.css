@@ -3,121 +3,83 @@ BeCode lblue : #63C3D1
 BeCode dblue : #16232E
 */
 body {
-  background: #fff;
-  color: #333;
-  font-family: 'Montserrat', sans-serif;
+  background: #eceff0;
+  /* color: #333;
+  font-family: 'Montserrat', sans-serif; */
 }
-.container {
-  display: block;
-  width: 400px;
-  margin: 100px auto 0;
+body,
+input {
+  /* font: 1em 'Athiti', sans-serif; */
+  color: #363639;
 }
-ul {
+a {
+  text-decoration: none;
+  border-bottom: 1px dashed #363639;
+  }
+
+/* List */
+.list {
+  background-color: #fff;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+}
+
+.list .header {
+  /* font-family: "Shadows Into Light Two", cursive; */
+  margin: 0 0 10px 0;
+}
+
+/* Items */
+.items {
   margin: 0;
   padding: 0;
+  list-style-type: none;
 }
-li * {
-  float: left;
+.items li:hover .done-button {
+    opacity: 1;
 }
-li, h3 {
-  clear:both;
-  list-style:none;
+
+.items .item.done{
+  text-decoration: line-through;
 }
-input, button {
+
+.items li,
+.item-add input{
+  border: 0;
+  border-bottom: 1px dashed #ccc;
+  padding: 15px 0;
+}
+
+.input{
+  width: 100%;
+}
+
+.input:focus{
   outline: none;
 }
-button {
-  background: none;
-  border: 0px;
-  color: #888;
-  font-size: 15px;
-  width: 60px;
-  margin: 10px 0 0;
-  font-family: 'Athiti', sans-serif;
-  cursor: pointer;
+
+/*Done button*/
+.done-button {
+  display: inline-block;
+  font-size: 0.8em;
+  background-color: #d9dfe1;
+  color: #363639;
+  padding: 3px 6px;
+  border: 0;
+  opacity: 0.4;
 }
-button:hover {
-  color: #333;
-}
-/* Heading */
-h3,
-label[for='new_task'] {
-  color: #333;
-  font-weight: 700;
-  font-size: 15px;
-  border-bottom: 2px solid #333;
-  padding: 30px 0 10px;
-  margin: 0;
-  text-transform: uppercase;
-}
-textarea {
-  margin: 0;
-  font-size: 18px;
-  line-height: 18px;
-  height: 18px;
-  padding: 10px;
+
+/*Submit button*/
+.submit {
+  background-color: #fff;
+  padding: 5px 10px;
   border: 1px solid #ddd;
-  background: #fff;
-  border-radius: 6px;
-  font-family: Lato, sans-serif;
-  color: #888;
-}
-textarea:focus {
-  color: #333;
-}
-
-/* New Task */
-label[for='new_task'] {
-  display: block;
-  margin: 0 0 20px;
-}
-input#new_task {
-  float: left;
-  width: 318px;
-}
-p > button:hover {
-  color: #0FC57C;
-}
-
-/* Task list */
-li {
-  overflow: hidden;
-  padding: 20px 0;
-  border-bottom: 1px solid #eee;
-}
-li > input[type="checkbox"] {
-  margin: 0 10px;
-  position: relative;
-  top: 15px;
-}
-li > label {
-  font-size: 18px;
-  line-height: 40px;
-  width: 237px;
-  padding: 0 0 0 11px;
-}
-li >  input[type="text"] {
-  width: 226px;
-}
-li > .delete:hover {
-  color: #CF2323;
-}
-
-/* Completed */
-#completed-tasks label {
-  text-decoration: line-through;
-  color: #888;
-}
-
-/* Edit Task */
-ul li input[type=text] {
-  display:none;
-}
-
-ul li.editMode input[type=text] {
-  display:block;
-}
-
-ul li.editMode label {
-  display:none;
+  width: 100%;
+  margin-top: 10px;
+  box-shadow: 3px 3px 0 #ddd;
 }
