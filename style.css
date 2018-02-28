@@ -9,7 +9,7 @@ body {
 }
 body,
 input {
-  /* font: 1em 'Athiti', sans-serif; */
+  font: 1em 'Athiti', sans-serif;
   color: #363639;
 }
 a {
@@ -30,7 +30,7 @@ a {
 }
 
 .list .header {
-  /* font-family: "Shadows Into Light Two", cursive; */
+  font-family: "Shadows Into Light Two", cursive;
   margin: 0 0 10px 0;
 }
 
