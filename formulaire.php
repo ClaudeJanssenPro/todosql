@@ -1,5 +1,14 @@
 <?php
-  $db = new PDO('mysql:host=localhost;dbname=todolist;charset=utf8', 'root', 'user', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+try
+{
+	  $db = new PDO('mysql:host=localhost;dbname=todolist;charset=utf8', 'root', 'user', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+}
+catch(Exception $e)
+{
+    die('Erreur : '.$e->getMessage());
+}
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@ Task addition @@@@@@@@@@@@@@@@@@@@@@@@@@
   if(isset($_POST['desc'])) {
     $desc = trim($_POST['desc']);
     if (!empty($desc)) {
@@ -12,12 +21,44 @@
       ]);
     }
   }
+// @@@@@@@@@@@@@@@@@@@@@@@@@@ Task' status change @@@@@@@@@@@@@@@@@@@@@@@@@@
+if (isset($_POST['boutton'])){ //si j'enregistre ( je check la case.. )
+    $choix=sanitize($_POST['tache']); // je récupère les valeurs checkée ("tache[]") des inputs ( qui sont alors dans un tableau )
+    foreach ($choix as $key){ // pour chaque ligne ...
+    $dbup = "UPDATE tache
+            SET fin = 'True'
+            WHERE nomtache='".$key."'";
+            //Si nomtache est égale à la valeur checkée, remplacement de 'False' par 'True'
+    $resultat = $bdd->exec($dbup); // Exécution... ( query )
+    }
+}
+
+  // @@@@@@@@@@@@@@@@@@@@@@@@@@ Sani @@@@@@@@@@@@@@@@@@@@@@@@@@
+  // function sanitize($key, $filter=FILTER_SANITIZE_STRING){
+  //
+  //     $sanitized_variable = null;
+  //
+  //     if(isset($_POST['desc'])OR isset($_POST['done-button'])){
+  //
+  //         if(is_array($key)){                 // si la valeur est un tableau...
+  //         $sanitized_variable = filter_var_array($key, $filter);
+  //         }
+  //         else {                              // sinon ...
+  //         $sanitized_variable = filter_var($key, $filter);
+  //         }
+  //     }
+  //
+  //     return $sanitized_variable;
+  // }
+
   $request = $db->prepare('SELECT * FROM task_table');
   $request->execute();
   $task_todos = $request->rowCount() ? $request : [];
   $tasks_todo = $db->query('SELECT * FROM task_table WHERE done=0');
   $tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
 ?>
+
+<a href="#" class="done-button" name="boutton" value="check">C'est fait</a>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -40,7 +81,8 @@
           <li>
             <span class="item<?php echo $task_todo['done'] ? ' done' : '' ?>"><?php echo $task_todo['task_desc'], '<br />'; ?></span>
             <?php if (!$task_todo['done']): ?>
-              <a href="#" class="done-button">C'est fait</a>
+              <a href="formulaire.php?as=done&task=<?php echo $task['id']; ?>" class="done-button" name="done-button" value="check">C'est fait</a>
+              
             <?php endif; ?>
           </li>
           <?php endforeach; ?>
