@@ -58,7 +58,6 @@ if (isset($_POST['boutton'])){ //si j'enregistre ( je check la case.. )
   $tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
 ?>
 
-<a href="#" class="done-button" name="boutton" value="check">C'est fait</a>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -75,21 +74,17 @@ if (isset($_POST['boutton'])){ //si j'enregistre ( je check la case.. )
     <div class="list">
       <fieldset>
         <h1 class="header">À faire</h1>
-        <!-- <?php if (!empty($task_todos)): ?> -->
-        <ul class="items">
-          <?php foreach ($tasks_todo as $task_todo): ?>
-          <li>
-            <span class="item<?php echo $task_todo['done'] ? ' done' : '' ?>"><?php echo $task_todo['task_desc'], '<br />'; ?></span>
-            <?php if (!$task_todo['done']): ?>
-              <a href="formulaire.php?as=done&task=<?php echo $task['id']; ?>" class="done-button" name="done-button" value="check">C'est fait</a>
-              
-            <?php endif; ?>
-          </li>
-          <?php endforeach; ?>
-        </ul>
-        <!-- <?php else: ?>
-          <p>Rien de prévu!</p>
-        <?php endif; ?> -->
+        <form action="formulaire.php" method="post" name="todoform">
+          <ul class="items">
+            <?php foreach ($tasks_todo as $task_todo): ?>
+            <li>
+              <input type='checkbox' name='task[]' value='".($task_todo['task_desc'])."'/>
+							<label for='selection'><?php echo $task_todo['task_desc']; ?></label><br />
+            </li>
+            <?php endforeach; ?>
+          </ul>
+        	<input type="submit" name="done_button" value="Fait" id="save" >
+        </form>
         <h1 class="header">Archive</h1>
             <ul class="items">
               <?php foreach ($tasks_done as $task_done): ?>
