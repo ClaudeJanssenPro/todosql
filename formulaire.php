@@ -2,25 +2,25 @@
 // °°°°°°°°°°°°°°°°°°°°°°°°°° DB HookUp °°°°°°°°°°°°°°°°°°°°°°°°°°
 try
 {
-	  $db = new PDO('mysql:host=localhost;dbname=todolist;charset=utf8', 'root', 'user', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+  $db = new PDO('mysql:host=localhost;dbname=todolist;charset=utf8', 'root', 'user', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 }
 catch(Exception $e)
 {
-    die('Erreur : '.$e->getMessage());
+  die('Erreur : '.$e->getMessage());
 }
 // °°°°°°°°°°°°°°°°°°°°°°°°°° Sani °°°°°°°°°°°°°°°°°°°°°°°°°°
 function sanitize($key, $filter=FILTER_SANITIZE_STRING){
     $sanitized_variable = null;
     if(isset($_POST['desc'])OR isset($_POST['done_button'])){
-        if(is_array($key)){                 // si la valeur est un tableau...
+        if(is_array($key)){
         $sanitized_variable = filter_var_array($key, $filter);
         }
-        else {                              // sinon ...
+        else {
         $sanitized_variable = filter_var($key, $filter);
         }
     }
     return $sanitized_variable;
-// var_dump($sanitized_variable);
+echo($sanitized_variable);
 }
 // °°°°°°°°°°°°°°°°°°°°°°°°°° Task addition °°°°°°°°°°°°°°°°°°°°°°°°°°
 if(isset($_POST['desc'])) {
@@ -37,22 +37,22 @@ if(isset($_POST['desc'])) {
 }
 // °°°°°°°°°°°°°°°°°°°°°°°°°° Task' status change °°°°°°°°°°°°°°°°°°°°°°°°°°
 if (isset($_POST['check_task'])){
-  $check=sanitize($_POST['task']);
+  $check = ($_POST['task']);
   foreach ($check as $key) {
-  $dbup = $db->prepare('
+  $dbup = '
     UPDATE task_table
     SET done = 1
-    WHERE task_desc = '.$key.'
-    ');
-  $dbup->execute();
+    WHERE task_desc = "'.$key.'"
+    ';
+  $update = $db->exec($dbup);
   }
 }
-  // °°°°°°°°°°°°°°°°°°°°°°°°°° Display tasks w/cond °°°°°°°°°°°°°°°°°°°°°°°°°°
-  $request = $db->prepare('SELECT * FROM task_table');
-  $request->execute();
-  $task_todos = $request->rowCount() ? $request : [];
-  $tasks_todo = $db->query('SELECT * FROM task_table WHERE done=0');
-  $tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
+// °°°°°°°°°°°°°°°°°°°°°°°°°° Display tasks w/cond °°°°°°°°°°°°°°°°°°°°°°°°°°
+$request = $db->prepare('SELECT * FROM task_table');
+$request->execute();
+$task_todos = $request->rowCount() ? $request : [];
+$tasks_todo = $db->query('SELECT * FROM task_table WHERE done=0');
+$tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
 ?>
 
 <!DOCTYPE html>
@@ -75,7 +75,7 @@ if (isset($_POST['check_task'])){
           <ul class="items">
             <?php foreach ($tasks_todo as $task_todo): ?>
             <li>
-              <input type='checkbox' name='task[]' value='".($task_todo['task_id'])."'/>
+              <input type='checkbox' name='task[]' value="<?php echo $task_todo['task_desc']; ?>" />
 							<label for='checkbox'><?php echo $task_todo['task_desc']; ?></label><br />
             </li>
             <?php endforeach; ?>
