@@ -7,50 +7,44 @@ catch(Exception $e)
 {
     die('Erreur : '.$e->getMessage());
 }
-
-// @@@@@@@@@@@@@@@@@@@@@@@@@@ Task addition @@@@@@@@@@@@@@@@@@@@@@@@@@
-  if(isset($_POST['desc'])) {
-    $desc = trim($_POST['desc']);
-    if (!empty($desc)) {
-      $add_task = $db->prepare('
-        INSERT INTO task_table (task_desc)
-        VALUES (:desc)
-      ');
-      $add_task->execute([
-        'desc' => $desc
-      ]);
+// °°°°°°°°°°°°°°°°°°°°°°°°°° Sani °°°°°°°°°°°°°°°°°°°°°°°°°°
+function sanitize($key, $filter=FILTER_SANITIZE_STRING){
+    $sanitized_variable = null;
+    if(isset($_POST['desc'])OR isset($_POST['done_button'])){
+        if(is_array($key)){                 // si la valeur est un tableau...
+        $sanitized_variable = filter_var_array($key, $filter);
+        }
+        else {                              // sinon ...
+        $sanitized_variable = filter_var($key, $filter);
+        }
     }
-  }
-// @@@@@@@@@@@@@@@@@@@@@@@@@@ Task' status change @@@@@@@@@@@@@@@@@@@@@@@@@@
-if (isset($_POST['boutton'])){ //si j'enregistre ( je check la case.. )
-    $choix=sanitize($_POST['tache']); // je récupère les valeurs checkée ("tache[]") des inputs ( qui sont alors dans un tableau )
-    foreach ($choix as $key){ // pour chaque ligne ...
-    $dbup = "UPDATE tache
-            SET fin = 'True'
-            WHERE nomtache='".$key."'";
-            //Si nomtache est égale à la valeur checkée, remplacement de 'False' par 'True'
-    $resultat = $bdd->exec($dbup); // Exécution... ( query )
-    }
+    return $sanitized_variable;
+var_dump($sanitized_variable);
 }
-
-  // @@@@@@@@@@@@@@@@@@@@@@@@@@ Sani @@@@@@@@@@@@@@@@@@@@@@@@@@
-  // function sanitize($key, $filter=FILTER_SANITIZE_STRING){
-  //
-  //     $sanitized_variable = null;
-  //
-  //     if(isset($_POST['desc'])OR isset($_POST['done-button'])){
-  //
-  //         if(is_array($key)){                 // si la valeur est un tableau...
-  //         $sanitized_variable = filter_var_array($key, $filter);
-  //         }
-  //         else {                              // sinon ...
-  //         $sanitized_variable = filter_var($key, $filter);
-  //         }
-  //     }
-  //
-  //     return $sanitized_variable;
-  // }
-
+// °°°°°°°°°°°°°°°°°°°°°°°°°° Task addition °°°°°°°°°°°°°°°°°°°°°°°°°°
+if(isset($_POST['desc'])) {
+  $desc = sanitize($_POST['desc']);
+  if (!empty($desc)) {
+    $add_task = $db->prepare('
+      INSERT INTO task_table (task_desc)
+      VALUES (:desc)
+    ');
+    $add_task->execute([
+      'desc' => $desc
+    ]);
+  }
+}
+// °°°°°°°°°°°°°°°°°°°°°°°°°° Task' status change °°°°°°°°°°°°°°°°°°°°°°°°°°
+if (isset($_POST['check_task'])){
+    $check_task=sanitize($_POST['check_task']);
+    $dbup = $db->prepare('
+      UPDATE task_table
+      SET done = 1
+      WHERE task_table.task_id = 56
+      ');
+    $dbup->execute();
+  }
+  // °°°°°°°°°°°°°°°°°°°°°°°°°° Display tasks w/cond °°°°°°°°°°°°°°°°°°°°°°°°°°
   $request = $db->prepare('SELECT * FROM task_table');
   $request->execute();
   $task_todos = $request->rowCount() ? $request : [];
@@ -74,17 +68,16 @@ if (isset($_POST['boutton'])){ //si j'enregistre ( je check la case.. )
     <div class="list">
       <fieldset>
         <h1 class="header">À faire</h1>
-        <form action="formulaire.php" method="post" name="todoform">
+        <form class="task_mod" action="formulaire.php" method="post">
           <ul class="items">
             <?php foreach ($tasks_todo as $task_todo): ?>
             <li>
-              <input type='checkbox' name='task[]' value='".($task_todo['task_desc'])."'/>
+              <input type='checkbox' name='task[]' value='".($task_todo['task_id'])."'/>
 							<label for='selection'><?php echo $task_todo['task_desc']; ?></label><br />
             </li>
             <?php endforeach; ?>
           </ul>
-        	<input type="submit" name="done_button" value="Fait" id="save" >
-        </form>
+        	<input type="submit" name="check_task" value="Fait" class="submit">
         <h1 class="header">Archive</h1>
             <ul class="items">
               <?php foreach ($tasks_done as $task_done): ?>
@@ -93,12 +86,13 @@ if (isset($_POST['boutton'])){ //si j'enregistre ( je check la case.. )
               </li>
               <?php endforeach; ?>
             </ul>
+        </form>
       </fieldset>
     </div>
     <div class="list">
       <fieldset>
         <h1 class="header">Ajouter une nouvelle tâche</h1>
-        <form class="item-add" action="formulaire.php" method="post">
+        <form class="task_add" action="formulaire.php" method="post">
           <label for="desc">Description</label>
           <input type="text" name="desc" placeholder="(ajoute ta tâche ici)" class="input" autocomplete="off" required>
           <input type="submit" value="Ajouter" class="submit">
