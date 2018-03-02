@@ -1,4 +1,5 @@
 <?php
+// °°°°°°°°°°°°°°°°°°°°°°°°°° DB HookUp °°°°°°°°°°°°°°°°°°°°°°°°°°
 try
 {
 	  $db = new PDO('mysql:host=localhost;dbname=todolist;charset=utf8', 'root', 'user', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
@@ -19,7 +20,7 @@ function sanitize($key, $filter=FILTER_SANITIZE_STRING){
         }
     }
     return $sanitized_variable;
-var_dump($sanitized_variable);
+// var_dump($sanitized_variable);
 }
 // °°°°°°°°°°°°°°°°°°°°°°°°°° Task addition °°°°°°°°°°°°°°°°°°°°°°°°°°
 if(isset($_POST['desc'])) {
@@ -35,15 +36,18 @@ if(isset($_POST['desc'])) {
   }
 }
 // °°°°°°°°°°°°°°°°°°°°°°°°°° Task' status change °°°°°°°°°°°°°°°°°°°°°°°°°°
-if (isset($_POST['check_task'])){
-    $check_task=sanitize($_POST['check_task']);
-    $dbup = $db->prepare('
-      UPDATE task_table
-      SET done = 1
-      WHERE task_table.task_id = 56
-      ');
-    $dbup->execute();
-  }
+
+foreach ($variable as $key => $value) {
+  if (isset($_POST['check_task'])){
+      $check_task=sanitize($_POST['check_task']);
+      $dbup = $db->prepare('
+        UPDATE task_table
+        SET done = 1
+        WHERE task_table.task_id = 56
+        ');
+      $dbup->execute();
+    }
+}
   // °°°°°°°°°°°°°°°°°°°°°°°°°° Display tasks w/cond °°°°°°°°°°°°°°°°°°°°°°°°°°
   $request = $db->prepare('SELECT * FROM task_table');
   $request->execute();
@@ -67,18 +71,23 @@ if (isset($_POST['check_task'])){
 	<body>
     <div class="list">
       <fieldset>
-        <h1 class="header">À faire</h1>
+        <legend><h1 class="header">À faire</h1></legend>
         <form class="task_mod" action="formulaire.php" method="post">
           <ul class="items">
             <?php foreach ($tasks_todo as $task_todo): ?>
             <li>
               <input type='checkbox' name='task[]' value='".($task_todo['task_id'])."'/>
-							<label for='selection'><?php echo $task_todo['task_desc']; ?></label><br />
+							<label for='checkbox'><?php echo $task_todo['task_desc']; ?></label><br />
             </li>
             <?php endforeach; ?>
           </ul>
         	<input type="submit" name="check_task" value="Fait" class="submit">
-        <h1 class="header">Archive</h1>
+        </form>
+      </fieldset>
+    </div>
+    <div class="list">
+      <fieldset>
+        <legend><h1 class="header">Archive</h1></legend>
             <ul class="items">
               <?php foreach ($tasks_done as $task_done): ?>
               <li>
@@ -91,7 +100,7 @@ if (isset($_POST['check_task'])){
     </div>
     <div class="list">
       <fieldset>
-        <h1 class="header">Ajouter une nouvelle tâche</h1>
+        <legend><h1 class="header">Ajouter une nouvelle tâche</h1></legend>
         <form class="task_add" action="formulaire.php" method="post">
           <label for="desc">Description</label>
           <input type="text" name="desc" placeholder="(ajoute ta tâche ici)" class="input" autocomplete="off" required>
