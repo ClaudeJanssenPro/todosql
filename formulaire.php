@@ -68,9 +68,9 @@ $tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
 		<title>TodoList SQL</title>
 	</head>
 	<body>
-    <div class="list">
+    <div class="postity">
       <fieldset>
-        <legend><h1 class="header">À faire</h1></legend>
+        <legend><h1>À faire</h1></legend>
         <form class="task_mod" action="formulaire.php" method="post">
           <ul class="items">
             <?php foreach ($tasks_todo as $task_todo): ?>
