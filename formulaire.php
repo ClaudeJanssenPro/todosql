@@ -36,17 +36,16 @@ if(isset($_POST['desc'])) {
   }
 }
 // °°°°°°°°°°°°°°°°°°°°°°°°°° Task' status change °°°°°°°°°°°°°°°°°°°°°°°°°°
-
-foreach ($variable as $key => $value) {
-  if (isset($_POST['check_task'])){
-      $check_task=sanitize($_POST['check_task']);
-      $dbup = $db->prepare('
-        UPDATE task_table
-        SET done = 1
-        WHERE task_table.task_id = 56
-        ');
-      $dbup->execute();
-    }
+if (isset($_POST['check_task'])){
+  $check=sanitize($_POST['task']);
+  foreach ($check as $key) {
+  $dbup = $db->prepare('
+    UPDATE task_table
+    SET done = 1
+    WHERE task_desc = '.$key.'
+    ');
+  $dbup->execute();
+  }
 }
   // °°°°°°°°°°°°°°°°°°°°°°°°°° Display tasks w/cond °°°°°°°°°°°°°°°°°°°°°°°°°°
   $request = $db->prepare('SELECT * FROM task_table');
