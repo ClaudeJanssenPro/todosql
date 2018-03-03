@@ -1,5 +1,8 @@
-
 <?php
+// °°°°°°°°°°°°°°°°°°°°°°°°°° Debug °°°°°°°°°°°°°°°°°°°°°°°°°°
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 // °°°°°°°°°°°°°°°°°°°°°°°°°° DB HookUp °°°°°°°°°°°°°°°°°°°°°°°°°°
 try
 {
@@ -10,9 +13,9 @@ catch(Exception $e)
   die('Erreur : '.$e->getMessage());
 }
 // °°°°°°°°°°°°°°°°°°°°°°°°°° Sani °°°°°°°°°°°°°°°°°°°°°°°°°°
-function sanitize($key, $filter=FILTER_SANITIZE_STRING){
+function sanitize($key, $filter=FILTER_SANITIZE_STRIPPED){
     $sanitized_variable = null;
-    if(isset($_POST['desc'])OR isset($_POST['done_button'])){
+    if(isset($_POST['desc'])OR isset($_POST['task[]'])){
         if(is_array($key)){
         $sanitized_variable = filter_var_array($key, $filter);
         }
