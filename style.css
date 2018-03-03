@@ -1,44 +1,93 @@
-/* Basic Style
-BeCode lblue : #63C3D1
-BeCode dblue : #16232E
+/*
+https://code.tutsplus.com/tutorials/create-a-sticky-note-effect-in-5-easy-steps-with-css3-and-html5--net-13934
 */
-
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker|Reenie+Beanie|Shadows+Into+Light+Two');
+    /* font-family: 'Shadows Into Light Two', cursive;
+    font-family: 'Permanent Marker', cursive;
+    font-family: 'Reenie Beanie', cursive; */
 
 body {
-  background: #eceff0;
-  /* color: #333;
-  font-family: 'Montserrat', sans-serif; */
+  background: #f2f2f2;
+  margin: 0;
+  border-radius: 5px;
+  border: 10px solid #adb2bd;
+  -webkit-box-shadow: inset -1px 2px 2px #404040, 6px 9px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset -1px 2px 2px #404040, 6px 9px 1px rgba(0, 0, 0, 0.1);
 }
-body,
-input {
-  font: 1em 'Athiti', sans-serif;
-  color: #363639;
+.items,label,.input {
+  font-family: 'Reenie Beanie',arial,sans-serif;
+  font-size: 1.4em;
+  font-weight:bold;
+  padding-bottom:10px;
+  color: #16232E;
 }
-a {
-  text-decoration: none;
-  border-bottom: 1px dashed #363639;
-  }
-
+.text{
+  font-family: 'Permanent Marker', cursive;
+  margin: 5px auto 5px auto;
+  font-size: 1.5em;
+  color: #1f75fe;
+  text-align: center;
+}
+fieldset {
+  border: none;
+  padding: 0;
+}
+legend,.submit {
+  font-family: 'Shadows Into Light Two',cursive;
+}
 /* PostIts*/
-.postity {
+.postit {
   line-height: 1;
   width: 100%;
   max-width: 500px;
-  margin: 20px auto;
-  padding-top:15px;
-  border-radius: 4px;
-  border:1px solid #E8E8E8;
+  margin: 30px auto;
+  padding:15px;
+  /* border-radius: 4px; */
+  /* border:1px solid #E8E8E8; */
   border-top:60px solid #fdfd86;
   border-bottom-right-radius: 60px 5px;
   box-sizing: border-box;
-  background: #ffff88; /* Old browsers */
-  background: -moz-linear-gradient(-45deg, #ffff88 81%, #ffff88 82%, #ffff88 82%, #ffffc6 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, right bottom, color-stop(81%,#ffff88), color-stop(82%,#ffff88), color-stop(82%,#ffff88), color-stop(100%,#ffffc6)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(-45deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(-45deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(-45deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* IE10+ */
-  background: linear-gradient(135deg, #ffff88 81%,#ffff88 82%,#ffff88 82%,#ffffc6 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff88', endColorstr='#ffffc6',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  background:#FFFFA5;
+  -webkit-transform:rotate(-6deg);
+  -o-transform:rotate(-6deg);
+  -moz-transform:rotate(-6deg);
+  -moz-box-shadow:5px 5px 7px rgba(33,33,33,1); /* Firefox */
+  -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  -moz-transition:-moz-transform .15s linear;
+  -o-transition:-o-transform .15s linear;
+  -webkit-transition:-webkit-transform .15s linear;
+}
+
+/* °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° */
+.green {
+  -o-transform:rotate(-3deg);
+  -webkit-transform:rotate(-3deg);
+  -moz-transform:rotate(-3deg);
+  position:relative;
+  top:-5px;
+  border-top:60px solid #80ff80;
+  background:#cfc;
+}
+.blue {
+  -o-transform:rotate(5deg);
+  -webkit-transform:rotate(5deg);
+  -moz-transform:rotate(5deg);
+  position:relative;
+  top:-10px;
+  border-top:60px solid #35a3b3;
+  background:#63C3D1;
+}
+
+.postit:hover,.postit:focus{
+  -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+  box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-transform: scale(1.25);
+  -moz-transform: scale(1.25);
+  -o-transform: scale(1.25);
+  position:relative;
+  z-index:5;
 }
 
 /* List */
@@ -52,57 +101,36 @@ a {
   box-shadow: 3px 3px 0 rgba(0, 0, 0, .1);
   box-sizing: border-box;
 }
-
-.legend {
-  font-family: "Shadows Into Light Two", cursive;
-  margin: 0 0 10px 0;
-}
 /* Items */
 .items {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
-.items li:hover .done-button {
-    opacity: 1;
-}
-
 .items .item.done{
   text-decoration: line-through;
 }
-
 .items li,
 .item-add input{
   border: 0;
-  border-bottom: 1px dashed #ccc;
   padding: 15px 0;
 }
-
 .input{
   width: 100%;
 }
-
 .input:focus{
   outline: none;
 }
 
-/*Done button*/
-.done-button {
-  display: inline-block;
-  font-size: 0.8em;
+/* °°°Buttons°°° */
+.submit {
   background-color: #d9dfe1;
   color: #363639;
   padding: 3px 6px;
   border: 0;
   opacity: 0.4;
-}
-
-/*Submit button*/
-.submit {
-  background-color: #fff;
-  padding: 5px 10px;
-  border: 1px solid #ddd;
-  width: 100%;
   margin-top: 10px;
-  box-shadow: 3px 3px 0 #ddd;
+}
+.submit:hover {
+    opacity: 1;
 }

@@ -1,3 +1,4 @@
+
 <?php
 // °°°°°°°°°°°°°°°°°°°°°°°°°° DB HookUp °°°°°°°°°°°°°°°°°°°°°°°°°°
 try
@@ -53,6 +54,7 @@ $request->execute();
 $task_todos = $request->rowCount() ? $request : [];
 $tasks_todo = $db->query('SELECT * FROM task_table WHERE done=0');
 $tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
+$title = 'TodoList (SQL)';
 ?>
 
 <!DOCTYPE html>
@@ -61,14 +63,14 @@ $tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light+Two" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Athiti" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 		<link rel="stylesheet" href="style.css" charset="utf-8" />
-		<title>TodoList SQL</title>
+		<title><?=$title?></title>
 	</head>
 	<body>
-    <div class="postity">
+    <div class="text">
+      <span><h1><?=$title?></h1></span>
+    </div>
+    <div class="postit">
       <fieldset>
         <legend><h1>À faire</h1></legend>
         <form class="task_mod" action="formulaire.php" method="post">
@@ -84,9 +86,9 @@ $tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
         </form>
       </fieldset>
     </div>
-    <div class="list">
+    <div class="postit green">
       <fieldset>
-        <legend><h1 class="header">Archive</h1></legend>
+        <legend><h1>Fait</h1></legend>
             <ul class="items">
               <?php foreach ($tasks_done as $task_done): ?>
               <li>
@@ -97,9 +99,9 @@ $tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
         </form>
       </fieldset>
     </div>
-    <div class="list">
+    <div class="postit blue">
       <fieldset>
-        <legend><h1 class="header">Ajouter une nouvelle tâche</h1></legend>
+        <legend><h1>Nouvelle tâche</h1></legend>
         <form class="task_add" action="formulaire.php" method="post">
           <label for="desc">Description</label>
           <input type="text" name="desc" placeholder="(ajoute ta tâche ici)" class="input" autocomplete="off" required>
