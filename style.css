@@ -1,11 +1,9 @@
 /*
 https://code.tutsplus.com/tutorials/create-a-sticky-note-effect-in-5-easy-steps-with-css3-and-html5--net-13934
+font-family: 'Shadows Into Light Two', cursive;
+font-family: 'Permanent Marker', cursive;
+font-family: 'Reenie Beanie', cursive;
 */
-@import url('https://fonts.googleapis.com/css?family=Permanent+Marker|Reenie+Beanie|Shadows+Into+Light+Two');
-    /* font-family: 'Shadows Into Light Two', cursive;
-    font-family: 'Permanent Marker', cursive;
-    font-family: 'Reenie Beanie', cursive; */
-
 body {
   background: #f2f2f2;
   margin: 0;

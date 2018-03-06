@@ -55,6 +55,9 @@ if (isset($_POST['check_task'])){
 $request = $db->prepare('SELECT * FROM task_table');
 $request->execute();
 $task_todos = $request->rowCount() ? $request : [];
+
+// °°°°°°°°°°°°°°°°°°°°°°°°°° !!!! 1 QUERY °°°°°°°°°°°°°°°°°°°°°°°°°°
+
 $tasks_todo = $db->query('SELECT * FROM task_table WHERE done=0');
 $tasks_done = $db->query('SELECT * FROM task_table WHERE done=1');
 $title = 'TodoList (SQL)';
@@ -66,6 +69,7 @@ $title = 'TodoList (SQL)';
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Reenie+Beanie|Shadows+Into+Light+Two" rel="stylesheet">
 		<link rel="stylesheet" href="style.css" charset="utf-8" />
 		<title><?=$title?></title>
 	</head>
